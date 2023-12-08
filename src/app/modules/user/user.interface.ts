@@ -24,7 +24,7 @@ export type User = {
   isDeleted: boolean
 }
 
-//for creating static
+// for creating static
 export interface UserModel extends Model<User> {
   isUserExists(userId: string): Promise<User | null>
 }
