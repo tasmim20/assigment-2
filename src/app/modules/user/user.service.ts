@@ -1,13 +1,13 @@
 import { UserModel } from '../user.model'
 import { User } from './user.interface'
 
-// const createUserIntoDB = async (userData: User) => {
-//   // const result = await UserModel.create(user)
+const createUserIntoDB = async (userData: User) => {
+  // const result = await UserModel.create(user)
 
-//   const user = new UserModel(userData)
-//   const result = await user.save()
-//   return result
-// }
+  const user = new UserModel(userData)
+  const result = await user.save()
+  return result
+}
 
 // const getAllUsersFromDB = async () => {
 //   const result = await UserModel.find()
