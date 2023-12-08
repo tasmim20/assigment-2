@@ -27,10 +27,10 @@ const updateUser = async (id: string, userData: User): Promise<User | null> => {
   return result
 }
 
-// const deleteUser = async (id: string) => {
-//   const result = await UserModel.updateOne({ id }, { isDeleted: true })
-//   return result
-// }
+const deleteUser = async (id: string) => {
+  const result = await UserModel.updateOne({ id }, { isDeleted: true })
+  return result
+}
 
 export const UserServices = {
   createUserIntoDB,
