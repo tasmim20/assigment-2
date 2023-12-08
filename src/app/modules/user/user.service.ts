@@ -18,11 +18,11 @@ const getSingleUsersFromDB = async (id: string): Promise<User | null> => {
   return result
 }
 
-// const updateUser = async (id: string, userData: User): Promise<User | null> => {
-//   const result = await UserModel.findByIdAndUpdate(id, userData, {
-//     new: true,
-//     runValidators: true,
-//   })
+const updateUser = async (id: string, userData: User): Promise<User | null> => {
+  const result = await UserModel.findByIdAndUpdate(id, userData, {
+    new: true,
+    runValidators: true,
+  })
 
   return result
 }
