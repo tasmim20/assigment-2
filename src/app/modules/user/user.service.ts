@@ -13,10 +13,10 @@ const getAllUsersFromDB = async () => {
   const result = await UserModel.find()
   return result
 }
-// const getSingleUsersFromDB = async (id: string): Promise<User | null> => {
-//   const result = await UserModel.findOne({ userId: id })
-//   return result
-// }
+const getSingleUsersFromDB = async (id: string): Promise<User | null> => {
+  const result = await UserModel.findOne({ userId: id })
+  return result
+}
 
 // const updateUser = async (id: string, userData: User): Promise<User | null> => {
 //   const result = await UserModel.findByIdAndUpdate(id, userData, {
