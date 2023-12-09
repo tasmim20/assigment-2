@@ -12,7 +12,7 @@ app.use('/api/users', UserRoutes)
 
 const getAController = (req: Request, res: Response) => {
   const a = 10
-  res.send(a)
+  res.send({ a })
 }
 app.get('/', getAController)
 export default app

@@ -1,9 +1,9 @@
 import { Schema, model } from 'mongoose'
-import { Address, FullName, User, UserModel } from './user/user.interface'
+import { TAddress, TFullName, TUser, UserModel } from './user/user.interface'
 import bcrypt from 'bcrypt'
 import config from '../config'
 
-const fullNameSchema = new Schema<FullName>({
+const fullNameSchema = new Schema<TFullName>({
   firstName: {
     type: String,
     required: [true, 'First Name is required'],
@@ -13,7 +13,7 @@ const fullNameSchema = new Schema<FullName>({
     required: [true, 'Last Name is required'],
   },
 })
-const addressSchema = new Schema<Address>({
+const addressSchema = new Schema<TAddress>({
   street: {
     type: String,
     required: [true, 'street Name is required'],
@@ -28,7 +28,7 @@ const addressSchema = new Schema<Address>({
   },
 })
 
-const UserSchema = new Schema<User, UserModel>({
+const userSchema = new Schema<TUser, UserModel>({
   userId: { type: Number, required: true, unique: true },
   username: {
     type: String,
@@ -75,7 +75,7 @@ const UserSchema = new Schema<User, UserModel>({
 // }
 
 // Query Middleware
-UserSchema.pre('save', async function (next) {
+userSchema.pre('save', async function (next) {
   // eslint-disable-next-line @typescript-eslint/no-this-alias
   const user = this
   user.password = await bcrypt.hash(
@@ -85,16 +85,16 @@ UserSchema.pre('save', async function (next) {
   next()
 })
 
-UserSchema.post('save', function (doc, next) {
+userSchema.post('save', function (doc, next) {
   doc.password = ''
 
   next()
 })
 
-// //creating a custom static method
-// UserSchema.statics.isUserExists = async function (id: string) {
-//   const existingUser = await User.findOne({ id })
-//   return existingUser
-// }
+//creating a custom static method
+userSchema.statics.isUserExists = async function (id: string) {
+  const existingUser = await User.findOne({ id })
+  return existingUser
+}
 
-export const UserModel = model<User>('User', UserSchema)
+export const User = model<TUser, UserModel>('User', userSchema)

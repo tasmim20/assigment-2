@@ -1,34 +1,63 @@
-import { UserModel } from '../user.model'
-import { User } from './user.interface'
+import { User } from '../user.model'
+import { TUser } from './user.interface'
 
-const createUserIntoDB = async (userData: User) => {
+//CREATE USER
+const createUserIntoDB = async (userData: TUser) => {
   // const result = await UserModel.create(user)
 
-  const user = new UserModel(userData)
+  const user = new User(userData)
   const result = await user.save()
   return result
 }
 
+//GET ALL USERS
 const getAllUsersFromDB = async () => {
-  const result = await UserModel.find()
-  return result
-}
-const getSingleUsersFromDB = async (id: string): Promise<User | null> => {
-  const result = await UserModel.findOne({ userId: id })
+  const result = await User.find()
   return result
 }
 
-const updateUser = async (id: string, userData: User): Promise<User | null> => {
-  const result = await UserModel.findByIdAndUpdate(id, userData, {
+//GET SINGLE USERS FROM DB
+const getSingleUsersFromDB = async (id: string) => {
+  const result = await User.findOne({ userId: id })
+  return result
+}
+
+//UPDATE USERS
+const updateUser = async (id: string, payload: Partial<TUser>) => {
+  const { fullName, address, hobbies, ...remainingUserData } = payload
+
+  const modifiedUpdatedData: Record<string, unknown> = {
+    ...remainingUserData,
+  }
+
+  if (fullName && Object.keys(fullName).length) {
+    for (const [key, value] of Object.entries(fullName)) {
+      modifiedUpdatedData[`name.${key}`] = value
+    }
+  }
+
+  if (address && Object.keys(address).length) {
+    for (const [key, value] of Object.entries(address)) {
+      modifiedUpdatedData[`guardian.${key}`] = value
+    }
+  }
+
+  if (hobbies && Object.keys(hobbies).length) {
+    for (const [key, value] of Object.entries(hobbies)) {
+      modifiedUpdatedData[`localGuardian.${key}`] = value
+    }
+  }
+
+  const result = await User.findByIdAndUpdate(id, modifiedUpdatedData, {
     new: true,
     runValidators: true,
   })
-
   return result
 }
 
+//DELETE USERS
 const deleteUser = async (id: string) => {
-  const result = await UserModel.updateOne({ id }, { isDeleted: true })
+  const result = await User.updateOne({ id }, { isDeleted: true })
   return result
 }
 
